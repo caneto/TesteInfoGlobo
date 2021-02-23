@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Teste InfoGlobo</string>
+
+    <!-- ========= Dashboard ========= -->
+    <string name="dashboard_toolbar_text">InfoGlobo</string>
+    <string name="dashboard_no_internet_text">Sem conexão com a Internet</string>
+    <string name="dashboard_nothing_found_text">Painel vazio</string>
+    <string name="dashboard_other_error_text">Algo errado!\nTente após alguns instantes.</string>
+
+    <!-- Navigation Drawer -->
+    <string name="nav_header_title_text">InfoGlobo</string>
+    <string name="nav_header_subtitle_text">Noticias Recentes</string>
+
+    <string name="favoritos">Favoritos</string>
+    <!-- ========= Category Page ========= -->
+    <string name="category_toolbar_text">Categorias</string>
+    <string name="category_no_internet_text">Sem conexão com a Internet</string>
+    <string name="category_nothing_found_text">Nenhuma categoria encontrada</string>
+    <string name="category_other_error_text">Algo errado!\nTente após alguns instantes.</string>
+
+    <!-- ========= Posts Page ========= -->
+    <string name="post_no_internet_text">Sem conexão com a Internet</string>
+    <string name="post_nothing_found_text">Nenhum artigo encontrado</string>
+    <string name="post_other_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+
+    <!-- ========= Search Page ========= -->
+    <string name="search_no_internet_text">Sem conexão com a Internet</string>
+    <string name="search_type_to_search">Comece a digitar para pesquisar o artigo</string>
+    <string name="search_nothing_found_text">Nenhum resultado encontrado</string>
+    <string name="search_other_error_text">Algo errado!\nTente após alguns instantes.</string>
+
+    <!-- ========= Bookmarks Page ========= -->
+    <string name="bookmarks_no_internet_text">Sem conexão com a Internet</string>
+    <string name="bookmarks_nothing_found_text">Nenhum artigo nos favoritos</string>
+    <string name="bookmarks_other_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+
+    <!-- ========= Article Page ========= -->
+    <string name="article_toolbar_text">Noticias</string>
+    <string name="article_no_internet_text">Sem conexão com a Internet</string>
+    <string name="article_other_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+
+    <!-- ========= Comment Page ========= -->
+    <string name="comment_toolbar_text">Comentarios</string>
+    <string name="comment_nothing_found_text">Seja o primeiro a comentar</string>
+    <string name="comment_no_internet_text">Sem conexão com a Internet</string>
+    <string name="comment_other_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+    <string name="comment_post_success_text">Comentário postado e será publicado logo após a verificação.</string>
+    <string name="comment_post_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+
+    <!-- ========= Page ========= -->
+    <string name="page_nothing_found_text">Seja o primeiro a comentar</string>
+    <string name="page_no_internet_text">Sem conexão com a Internet</string>
+    <string name="page_other_error_text">Algo errado!\nTente depois de alguns momentos.</string>
+</resources>

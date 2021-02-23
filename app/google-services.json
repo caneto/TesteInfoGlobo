@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "73303259210",
+    "project_id": "capsistema",
+    "storage_bucket": "capsistema.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73303259210:android:961b6825cf19f719ffceb3",
+        "android_client_info": {
+          "package_name": "br.teste.edglobo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73303259210-dps60ci7kk1f7eiuvel2p98i3r59aa7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAASSKlK7j6jjRvR5FsDlk_pDGHCSsf4vw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73303259210-dps60ci7kk1f7eiuvel2p98i3r59aa7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
