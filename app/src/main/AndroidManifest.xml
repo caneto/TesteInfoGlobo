@@ -25,19 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CategoriesActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".PostActivity"
-            android:configChanges="orientation|screenSize" />
         <activity android:name=".ArticleActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".CommentActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".BookmarksActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".PageActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".SearchActivity"
             android:configChanges="orientation|screenSize" />
     </application>
 

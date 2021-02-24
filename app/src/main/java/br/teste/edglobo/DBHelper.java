@@ -48,14 +48,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteArtigos(Context c, String id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tableName, "id = ? ", new String[]{id});
-        try {
-            BookmarksActivity.getInstance().reloadListView();
-        }catch (Exception e){}
-    }
-
     public String getAllBookmarks() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select id from " + tableName + " order by id desc", null);

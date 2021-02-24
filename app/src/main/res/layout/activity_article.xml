@@ -52,7 +52,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/article_date"
+                        android:id="@+id/article_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="..."
@@ -61,27 +61,6 @@
                         android:textStyle="normal" />
 
                 </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/btn_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="shareArticle"
-                    android:src="@drawable/ic_share"
-                    android:visibility="gone"
-                    android:tint="@color/articleToolbarTextColor" />
-
-                <ImageButton
-                    android:id="@+id/btn_bookmark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="changeBookmark"
-                    android:src="@drawable/ic_add_bookmarks"
-                    android:tint="@color/articleToolbarTextColor" />
 
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -121,26 +100,25 @@
                     android:paddingBottom="30dp">
 
                     <TextView
-                        android:id="@+id/article_title"
+                        android:id="@+id/article_titulo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/default_padding"
                         android:layout_marginRight="@dimen/default_padding"
-                        android:text="Sample Title"
+                        android:text="Titulo"
                         android:textColor="#47565D"
                         android:textSize="21sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/article_author"
+                        android:id="@+id/article_autor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/default_padding"
                         android:layout_marginRight="@dimen/default_padding"
-                        android:text=""
+                        android:text="Autor"
                         android:textColor="#333333"
-                        android:textSize="13sp"
-                        android:visibility="gone" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -159,35 +137,16 @@
                             tools:ignore="UseAppTint" />
 
                         <TextView
-                            android:id="@+id/article_category"
+                            android:id="@+id/article_secao_nome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="International"
+                            android:text="secao_nome"
                             android:textColor="#555555"
                             android:textSize="13sp" />
 
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:src="@drawable/comment"
-                            android:tint="#555555"
-                            tools:ignore="UseAppTint" />
-
-                        <TextView
-                            android:id="@+id/article_total_comments"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="#555555"
-                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -210,13 +169,34 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <WebView
-                        android:id="@+id/webView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/default_padding"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginRight="@dimen/default_padding"></WebView>
+                        android:layout_marginTop="7dp"
+                        android:layout_marginRight="@dimen/default_padding"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/category"
+                            android:tint="#555555"
+                            tools:ignore="UseAppTint" />
+
+                        <TextView
+                            android:id="@+id/article_texto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:maxLines="30"
+                            android:text="Texto"
+                            android:textColor="#555555"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -269,26 +249,5 @@
             android:gravity="center"
             android:text="No Categories Found" />
     </LinearLayout>
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabBtn"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="50dp"
-        android:onClick="fabClicked"
-        android:visibility="gone"
-        app:backgroundTint="@color/articleFabBGColor"
-        app:srcCompat="@drawable/ic_insert_comment"
-        app:tint="@color/articleFabIconColor" />-->
-
-    <LinearLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

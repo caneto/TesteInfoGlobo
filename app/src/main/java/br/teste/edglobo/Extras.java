@@ -1,13 +1,8 @@
 package br.teste.edglobo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import androidx.appcompat.widget.PopupMenu;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -22,14 +17,6 @@ public class Extras {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    public static void shareArticle(Context c, String postURL){
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, postURL);
-        c.startActivity(Intent.createChooser(shareIntent, "Share Article"));
-    }
-
 
     static String  URL() {
         return Config.host;

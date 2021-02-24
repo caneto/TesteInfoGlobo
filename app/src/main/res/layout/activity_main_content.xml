@@ -35,15 +35,6 @@
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="7dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="searchView"
-                    android:tint="@color/dashboardToolbarTextColor"
-                    app:srcCompat="@drawable/ic_search" />
-
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -129,12 +120,4 @@
             android:gravity="center"
             android:text="Dashboard Empty" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

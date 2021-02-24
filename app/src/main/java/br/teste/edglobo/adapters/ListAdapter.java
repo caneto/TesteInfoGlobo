@@ -1,6 +1,7 @@
 package br.teste.edglobo.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import br.teste.edglobo.ArticleActivity;
 import br.teste.edglobo.DBHelper;
 import br.teste.edglobo.R;
 import com.squareup.picasso.Picasso;
@@ -62,13 +65,14 @@ public class ListAdapter extends BaseAdapter {
             holder.rowSecao.setText(singleTask.get("secao_nome"));
             holder.rowTitulo.setText(singleTask.get("titulo"));
 
-            holder.contentContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-               //     PopupMenu popup = Extras.popupMenu(context, mydb, singleTask.get("post_id"), singleTask.get("post_url"), v);
-                //    popup.show();
-                }
-            });
+          //  holder.contentContainer.setOnClickListener(new View.OnClickListener() {
+         //       @Override
+         //       public void onClick(View v) {
+        //            Intent myIntent = new Intent(context, ArticleActivity.class);
+      //              myIntent.putExtra("id", dataList.get(position).get("id"));
+    //                startActivity(myIntent);
+  //              }
+//            });
 
             Picasso.get()
                     .load(singleTask.get("imagens_url"))

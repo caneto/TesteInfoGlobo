@@ -3,30 +3,24 @@ package br.teste.edglobo;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import io.supercharge.shimmerlayout.ShimmerLayout;
@@ -34,38 +28,28 @@ import io.supercharge.shimmerlayout.ShimmerLayout;
 public class ArticleActivity  extends AppCompatActivity {
 
     Context context = this;
-    String postId = "";
-    String postURL = "";
-    DBHelper myDB;
+    String Id = "";
     TextView toolbarTitle;
-    ImageButton btnShare;
-    WebChromeClientCustom mWebChromeClient;
     SwipeRefreshLayout swipeContainer;
     NestedScrollView scrollView;
-    WebView webView;
     ShimmerLayout loaderView;
     LinearLayout errorView, emptyView;
     TextView errorTxt, emptyTxt;
-    ImageButton btnBookmark;
     ImageView articleThumbnail;
     CardView thumbnailContainer;
-    TextView articleTitle, articleAuthor, articleDate, articleCategory, articleTotalComments;
-    //FloatingActionButton fabBtn;
+    TextView articleTitulo, articleAutor, articleData, articleSecaoNome, articleTexto;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_article);
 
-        myDB = new DBHelper(context);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        btnShare = findViewById(R.id.btn_share);
 
         Intent intent = getIntent();
-        if (intent.hasExtra("post_id")) {
-            postId = intent.getStringExtra("post_id");
+        if (intent.hasExtra("id")) {
+            Id = intent.getStringExtra("id");
         }else{
             finish();
         }
@@ -77,35 +61,19 @@ public class ArticleActivity  extends AppCompatActivity {
         errorTxt = findViewById(R.id.errorTxt);
         emptyView = findViewById(R.id.empty);
         emptyTxt = findViewById(R.id.emptyTxt);
-        btnBookmark = findViewById(R.id.btn_bookmark);
         articleThumbnail = findViewById(R.id.article_thumbnail);
         thumbnailContainer = findViewById(R.id.thumbnail_container);
-        articleTitle = findViewById(R.id.article_title);
-        articleAuthor = findViewById(R.id.article_author);
-        articleDate = findViewById(R.id.article_date);
-        articleCategory = findViewById(R.id.article_category);
-        articleTotalComments = findViewById(R.id.article_total_comments);
-        //fabBtn = findViewById(R.id.fabBtn);
-        webView = findViewById(R.id.webView);
-
-        mWebChromeClient = new WebChromeClientCustom();
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.setWebChromeClient(mWebChromeClient);
+        articleTexto = findViewById(R.id.article_texto);
+        articleTitulo = findViewById(R.id.article_titulo);
+        articleAutor = findViewById(R.id.article_autor);
+        articleData = findViewById(R.id.article_data);
+        articleSecaoNome = findViewById(R.id.article_secao_nome);
 
         if(Extras.isConnected(this)){
             new fetchJsonData().execute();
         }else{
             showError(getString(R.string.article_no_internet_text));
         }
-
-        /* Bookmark Btn */
-        if(myDB.isArtigo(postId)){
-            btnBookmark.setImageResource(R.drawable.ic_bookmarks);
-        }else{
-            btnBookmark.setImageResource(R.drawable.ic_add_bookmarks);
-        }
-        /* Bookmark Btn */
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -120,42 +88,6 @@ public class ArticleActivity  extends AppCompatActivity {
 
     }
 
-    public void finishView(View v){
-        Intent intent = getIntent();
-        if (intent.hasExtra("from_notification")) {
-            if(intent.getBooleanExtra("from_notification", false)){
-                startActivity(new Intent(context, MainActivity.class));
-                finish();
-            }else{
-                finish();
-            }
-        }else{
-            finish();
-        }
-    }
-
-    public void shareArticle(View v){
-        Extras.shareArticle(context, postURL);
-    }
-
-    public void changeBookmark(View v){
-        if(myDB.isArtigo(postId)){
-            myDB.deleteArtigos(context, postId);
-            Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
-            btnBookmark.setImageResource(R.drawable.ic_add_bookmarks);
-        }else{
-            myDB.insertArtigo(postId);
-            Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
-            btnBookmark.setImageResource(R.drawable.ic_bookmarks);
-        }
-    }
-
-    public void fabClicked(View v){
-        Intent myIntent = new Intent(context, CommentActivity.class);
-        myIntent.putExtra("post_id", postId);
-        startActivity(myIntent);
-    }
-
     public void showError(String msg)
     {
         swipeContainer.setRefreshing(false);
@@ -164,7 +96,6 @@ public class ArticleActivity  extends AppCompatActivity {
         errorTxt.setText(msg);
         loaderView.setVisibility(View.GONE);
         scrollView.setVisibility(View.GONE);
-        btnShare.setVisibility(View.GONE);
     }
 
     public void hideError()
@@ -174,7 +105,6 @@ public class ArticleActivity  extends AppCompatActivity {
         emptyView.setVisibility(View.GONE);
         loaderView.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
-        btnShare.setVisibility(View.GONE);
         loaderView.startShimmerAnimation();
     }
 
@@ -193,64 +123,87 @@ public class ArticleActivity  extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                JSONObject jsonObj = new JSONObject(result);
-                String status = jsonObj.getString("status");
-                if (status.contentEquals("false")){
-                    showError(getString(R.string.article_other_error_text));
-                } else if (status.contentEquals("true")) {
+                JSONArray jsonAarry = new JSONArray(result);
+                JSONObject jsonObj = new JSONObject(jsonAarry.getString(0));
+                JSONArray conteudos = jsonObj.getJSONArray("conteudos");
 
-                    try{
-                        Picasso.get()
-                                .load(jsonObj.getString("post_cover"))
-                                .resize(500, 300)
-                                .centerCrop()
-                                .into(articleThumbnail, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        thumbnailContainer.setVisibility(View.VISIBLE);
-                                    }
-                                    @Override
-                                    public void onError(Exception ex) {
+                for (int i = 0; i < conteudos.length(); i++) {
+                    JSONObject componentObject = conteudos.getJSONObject(i);
+
+                    if(componentObject.optString("id").contentEquals(Id)) {
+
+                    if(componentObject.length() == 14) {
+
+                        if (componentObject.has("autores")) {
+                            if (!componentObject.getJSONArray("autores").isNull(0)) {
+                                String autores = componentObject.getJSONArray("autores").getString(0);
+                                articleAutor.setText(autores);
+                            }
+                        }
+
+                        String texto = componentObject.optString("texto");
+                        articleTexto.setText(texto);
+
+                        String subTitulo = componentObject.optString("subTitulo");
+
+                        String titulo = componentObject.optString("titulo");
+                        articleTitulo.setText(titulo);
+
+                        String url = componentObject.optString("url");
+                        String urlOriginal = componentObject.optString("urlOriginal");
+
+                        // Abre o Objeto de Secão
+                        JSONObject secaodados = componentObject.getJSONObject("secao");
+                        String secao_nome = secaodados.optString("nome");
+                        articleSecaoNome.setText(secao_nome);
+
+                        String secao_url = secaodados.optString("url");
+
+                        if (componentObject.has("imagens")) {
+                            if (componentObject.getJSONArray("imagens").length() != 0) {
+                                JSONObject imagensdados = componentObject.getJSONArray("imagens").getJSONObject(0);
+                                if (!imagensdados.isNull("autor")) {
+                                    String imagens_autor = imagensdados.optString("autor");
+                                    String imagens_fonte = imagensdados.optString("fonte");
+                                    String imagens_legenda = imagensdados.optString("legenda");
+                                    //String imagens_url = imagensdados.optString("url");
+
+                                    try{
+                                        Picasso.get()
+                                                .load(imagensdados.optString("url"))
+                                                .resize(500, 300)
+                                                .centerCrop()
+                                                .into(articleThumbnail, new Callback() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        thumbnailContainer.setVisibility(View.VISIBLE);
+                                                    }
+                                                    @Override
+                                                    public void onError(Exception ex) {
+                                                        thumbnailContainer.setVisibility(View.GONE);
+                                                    }
+                                                });
+                                    }catch (Exception e){
                                         thumbnailContainer.setVisibility(View.GONE);
                                     }
-                                });
-                    }catch (Exception e){
-                        thumbnailContainer.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                        onPostProcess();
+
+                    }
                     }
 
-                    postURL = jsonObj.getString("post_url");
-                    articleTitle.setText(jsonObj.getString("post_title"));
 
-                    if(jsonObj.getString("post_author").trim().length()> 1){
-                        articleAuthor.setVisibility(View.VISIBLE);
-                        articleAuthor.setText("Posted By: "+jsonObj.getString("post_author"));
-                    }else{
-                        articleAuthor.setVisibility(View.GONE);
-                    }
 
-                    articleDate.setText("Published on "+jsonObj.getString("post_date"));
-                    articleCategory.setText(jsonObj.getString("cat_name"));
-
-                    String comment_text = Integer.parseInt(jsonObj.getString("total_comments")) > 1 ? "Comments" : "Comment";
-                    articleTotalComments.setText(jsonObj.getString("total_comments")+" "+comment_text);
-
-                    //if(jsonObj.getString("comment_status").contentEquals("true"))
-                    //{
-                    //    fabBtn.show();
-                    //}else{
-                    //    fabBtn.hide();
-                    //}
-
-                    String post_content = jsonObj.getString("post_content");
-                    webView.loadDataWithBaseURL(null, post_content, "text/html", "UTF-8", null);
-                    onPostProcess();
-                }else{
-                    showError(getString(R.string.article_other_error_text));
                 }
-            }catch (Exception e){
+
+            } catch (Exception e) {
                 e.printStackTrace();
-                showError(getString(R.string.article_other_error_text));
+                showError(getString(R.string.dashboard_other_error_text));
             }
+
+
         }
     }
 
@@ -259,67 +212,6 @@ public class ArticleActivity  extends AppCompatActivity {
         loaderView.stopShimmerAnimation();
         loaderView.setVisibility(View.GONE);
         scrollView.setVisibility(View.VISIBLE);
-        btnShare.setVisibility(View.VISIBLE);
     }
 
-
-
-    private class WebChromeClientCustom extends WebChromeClient {
-        private static final int FULL_SCREEN_SETTING = View.SYSTEM_UI_FLAG_FULLSCREEN |
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                View.SYSTEM_UI_FLAG_IMMERSIVE;
-        private View mCustomView;
-        private WebChromeClient.CustomViewCallback mCustomViewCallback;
-        private int mOriginalOrientation;
-        private int mOriginalSystemUiVisibility;
-        public void onHideCustomView() {
-            ((FrameLayout) getWindow().getDecorView()).removeView(this.mCustomView);
-            this.mCustomView = null;
-            getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
-            setRequestedOrientation(this.mOriginalOrientation);
-            this.mCustomViewCallback.onCustomViewHidden();
-            this.mCustomViewCallback = null;
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-        }
-        @Override
-        public void onShowCustomView(View paramView, WebChromeClient.CustomViewCallback paramCustomViewCallback) {
-            if (this.mCustomView != null) {
-                onHideCustomView();
-                return;
-            }
-            this.mCustomView = paramView;
-            this.mOriginalSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
-            this.mOriginalOrientation = getRequestedOrientation();
-            this.mCustomViewCallback = paramCustomViewCallback;
-            ((FrameLayout) getWindow()
-                    .getDecorView())
-                    .addView(this.mCustomView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            ArticleActivity.this.getWindow().getDecorView().setSystemUiVisibility(FULL_SCREEN_SETTING);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-            this.mCustomView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    updateControls();
-                }
-            });
-        }
-        @Override
-        public Bitmap getDefaultVideoPoster() {
-            return Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
-        }
-        void updateControls() {
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) this.mCustomView.getLayoutParams();
-            params.bottomMargin = 0;
-            params.topMargin = 0;
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            this.mCustomView.setLayoutParams(params);
-            ArticleActivity.this.getWindow().getDecorView().setSystemUiVisibility(FULL_SCREEN_SETTING);
-        }
-    }
 }
